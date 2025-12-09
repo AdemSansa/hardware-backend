@@ -25,6 +25,7 @@ const io = new Server(server, {
 // Make io available globally for use in other modules
 global.io = io;
 
+// CORS configuration - allow web and Capacitor native apps
 const allowedOrigins = [
   "http://localhost:4200",
   "http://localhost",
@@ -58,8 +59,11 @@ app.use(cors({
   credentials: true
 }));
 
-// Required for Express 5
-app.options("*", cors());
+
+
+// Preflight (Express 5 safe)
+// SAFE preflight handler for Express 5
+app.options(/.*/, cors());
 
 connectDB().then(() => {
   seedProducts();
