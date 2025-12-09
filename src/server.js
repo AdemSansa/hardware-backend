@@ -33,8 +33,6 @@ const allowedOrigins = [
   "capacitor://localhost",
   "http://hardware-backend-production.up.railway.app",
   "https://hardware-backend-production.up.railway.app",
-  /^http:\/\/hardware-backend-production\.up\.railway\.app\/api\/v1$/,
-  /^https:\/\/hardware-backend-production\.up\.railway\.app\/api\/v1$/,
   /^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/,
   /^https:\/\/192\.168\.\d+\.\d+(:\d+)?$/,
 ];
