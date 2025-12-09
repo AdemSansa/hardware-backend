@@ -16,14 +16,15 @@ const server = http.createServer(app);
 // Initialize Socket.io
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:4200", "capacitor://localhost", "http://localhost", "https://localhost", "http://192.168.100.53:5000","http://hardware-backend-production.up.railway.app/api/v1","http://hardware-backend-production.up.railway.app"],
-    methods: ["GET", "POST"],
+    origin: ["http://localhost:4200", "capacitor://localhost", "http://localhost", "https://localhost", "http://192.168.100.53:5000","http://hardware-backend-production.up.railway.app"],
+    methods: ["GET", "POST","PUT","DELETE","OPTIONS"],
     credentials: true
   }
 });
 
 // Make io available globally for use in other modules
 global.io = io;
+
 
 // CORS configuration - allow web and Capacitor native apps
 const allowedOrigins = [
@@ -38,8 +39,13 @@ const allowedOrigins = [
 ];
 
 app.use((req, res, next) => {
+  // Railway forces HTTPS redirects which break CORS preflight
   if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    return res.sendStatus(200); // CORS preflight success — NO redirect!
   }
   next();
 });
