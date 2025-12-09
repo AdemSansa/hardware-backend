@@ -34,7 +34,10 @@ const allowedOrigins = [
   "http://hardware-backend-production.up.railway.app/api/v1",
   "http://hardware-backend-production.up.railway.app",
   /^http:\/\/192\.168\.\d+\.\d+:\d+$/, // Allow local network IPs
-  /^https:\/\/192\.168\.\d+\.\d+:\d+$/ // Allow HTTPS local network IPs
+  /^https:\/\/192\.168\.\d+\.\d+:\d+$/, // Allow HTTPS local network IPs
+  /^http:\/\/hardware-backend-production\.up\.railway\.app\/api\/v1$/,
+  /^http:\/\/hardware-backend-production\.up\.railway\.app$/,
+
 ];
 
 app.use(cors({
