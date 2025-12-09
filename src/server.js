@@ -16,7 +16,7 @@ const server = http.createServer(app);
 // Initialize Socket.io
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:4200", "capacitor://localhost", "http://localhost", "https://localhost", "http://192.168.100.53:5000"],
+    origin: ["http://localhost:4200", "capacitor://localhost", "http://localhost", "https://localhost", "http://192.168.100.53:5000","http://hardware-backend-production.up.railway.appx"],
     methods: ["GET", "POST"],
     credentials: true
   }
