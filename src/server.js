@@ -25,54 +25,41 @@ const io = new Server(server, {
 // Make io available globally for use in other modules
 global.io = io;
 
-// CORS configuration - allow web and Capacitor native apps
 const allowedOrigins = [
   "http://localhost:4200",
-  "capacitor://localhost",
   "http://localhost",
-  "https://localhost", // Android app uses https://localhost
-  "http://hardware-backend-production.up.railway.app/api/v1",
+  "https://localhost",
+  "capacitor://localhost",
   "http://hardware-backend-production.up.railway.app",
-  /^http:\/\/192\.168\.\d+\.\d+:\d+$/, // Allow local network IPs
-  /^https:\/\/192\.168\.\d+\.\d+:\d+$/, // Allow HTTPS local network IPs
-  /^http:\/\/hardware-backend-production\.up\.railway\.app\/api\/v1$/,
-  /^http:\/\/hardware-backend-production\.up\.railway\.app$/,
-  /^https:\/\/hardware-backend-production\.up\.railway\.app\/api\/v1$/,
-  /^https:\/\/hardware-backend-production\.up\.railway\.app$/,
-
-  
-
+  "https://hardware-backend-production.up.railway.app",
+  /^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/,
+  /^https:\/\/192\.168\.\d+\.\d+(:\d+)?$/,
 ];
 
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
+  origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    
-    // Check if origin matches allowed patterns
-    const isAllowed = allowedOrigins.some(allowed => {
-      if (typeof allowed === 'string') {
-        return origin === allowed;
-      } else if (allowed instanceof RegExp) {
-        return allowed.test(origin);
-      }
-      return false;
-    });
-    
-    if (isAllowed) {
-      callback(null, true);
-    } else {
-      callback(null, true); // Allow all for development - tighten in production
-    }
+
+    const allowed = allowedOrigins.some(o =>
+      typeof o === "string" ? o === origin : o.test(origin)
+    );
+
+    return callback(null, allowed);
   },
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 
-// Preflight (Express 5 safe)
-// SAFE preflight handler for Express 5
-app.options(/.*/, cors());
+// Required for Express 5
+app.options("*", cors());
 
 connectDB().then(() => {
   seedProducts();
