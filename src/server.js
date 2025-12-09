@@ -37,6 +37,10 @@ const allowedOrigins = [
   /^https:\/\/192\.168\.\d+\.\d+:\d+$/, // Allow HTTPS local network IPs
   /^http:\/\/hardware-backend-production\.up\.railway\.app\/api\/v1$/,
   /^http:\/\/hardware-backend-production\.up\.railway\.app$/,
+  /^https:\/\/hardware-backend-production\.up\.railway\.app\/api\/v1$/,
+  /^https:\/\/hardware-backend-production\.up\.railway\.app$/,
+
+  
 
 ];
 
