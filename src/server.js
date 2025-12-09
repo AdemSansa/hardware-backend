@@ -16,7 +16,7 @@ const server = http.createServer(app);
 // Initialize Socket.io
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:4200", "capacitor://localhost", "http://localhost", "https://localhost", "http://192.168.100.53:5000","http://hardware-backend-production.up.railway.appx"],
+    origin: ["http://localhost:4200", "capacitor://localhost", "http://localhost", "https://localhost", "http://192.168.100.53:5000","http://hardware-backend-production.up.railway.app/api/v1","http://hardware-backend-production.up.railway.app"],
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -31,6 +31,8 @@ const allowedOrigins = [
   "capacitor://localhost",
   "http://localhost",
   "https://localhost", // Android app uses https://localhost
+  "http://hardware-backend-production.up.railway.app/api/v1",
+  "http://hardware-backend-production.up.railway.app",
   /^http:\/\/192\.168\.\d+\.\d+:\d+$/, // Allow local network IPs
   /^https:\/\/192\.168\.\d+\.\d+:\d+$/ // Allow HTTPS local network IPs
 ];
